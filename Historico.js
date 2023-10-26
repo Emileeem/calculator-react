@@ -1,15 +1,21 @@
-import { TouchableOpacity, View, Text} from "react-native";
+import {View, Text} from "react-native";
+import { useContext} from 'react';
+import { UtilsContext } from "./Context";
 
 export default function Historico(){
+    const {utils, setUtils} = useContext(UtilsContext)
+
     return(
         <>
             <View>
-                <Text style={{
-                    fontSize:"30px",
-                    fontWeight:"bold"
-                }}>
-                    Histórico:
-                </Text>
+                {utils.value.map((item,index) =>
+                <Text
+                key={index}
+                style={{
+                    textAlign:"center",
+                    fontSize:"30px"
+
+                }}>{item} </Text> )}
             </View>
         </>
     )

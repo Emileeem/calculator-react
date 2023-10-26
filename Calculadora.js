@@ -1,11 +1,28 @@
-import { TouchableOpacity, View, Text} from "react-native";
-import { useState } from "react";
-
+import { TouchableOpacity, View, Text } from "react-native";
+import {useState, useContext} from 'react';
+import { UtilsContext } from "./Context";
 export default function Calculadora(props){
     const [value,setValue] = useState("")
+    const {utils, setUtils} = useContext(UtilsContext)
+
+    function goToHistorico()
+    {
+        props.navigation.navigate('Historico')
+    }
+    function equal(){
+        if(utils.value){
+            setUtils({...utils, value: [...utils.value,value+" = "+eval(value)]})
+        }
+        else{
+            setUtils({...utils, value: [value+" = "+eval(value)]})
+        }
+
+        setValue(eval(value))
+    }
     return(
         <>
-        <View style={{
+        <View onChangeText={text => setValue(text)}
+            value={value} style={{
            borderWidth: 1,
            borderColor: "black",
            borderRadius:"10px",
@@ -66,7 +83,7 @@ export default function Calculadora(props){
                 fontSize:"33px",
                 color:"black",
                 borderRadius:"9px"
-            }} onPress={() => setValue(eval(value))}><Text style={{fontSize:"33px", textAlign:"center"}}>=</Text> </TouchableOpacity>
+            }} onPress={() => equal() }><Text style={{fontSize:"33px", textAlign:"center"}}>=</Text> </TouchableOpacity>
         </View>
         <View style={{
             textAlign:"center",
@@ -224,7 +241,7 @@ export default function Calculadora(props){
                 </View>
 
         </TouchableOpacity>
-        <TouchableOpacity title="Historico" onPress={() => props.navigation.navigate("Historico")}>
+        <TouchableOpacity title="Historico" onPress={() => goToHistorico()}>
                 <View style={{
                     width:"100px",
                     height:"40px",
